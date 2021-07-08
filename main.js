@@ -1,6 +1,6 @@
 var grid_size = 10;
 GenerateGrid();
-console.log("Testing git");
+console.log("Testing testing testing");
 function GenerateGrid() {
 
     var mainGameContainer= document.getElementById('game');
