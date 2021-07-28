@@ -5,14 +5,23 @@
 </head>
 
 <body style="background-color:palegoldenrod;" >
+    <script src="socket.io.js"></script>
+<script>
+  var socket = io();
+  socket.on("updategrid",(id,letter)=>{
+    document.getElementById(id).value = letter;
+
+  });
+</script>  
 <div class="game-container">
 
 <div id="game" >
   
 </div>
-<button id="something" onclick="checkWord()">Press me</button>
+<button id="something" onclick="updateGrid()">Press me</button>
 </div>
 </body>
+ 
 <script src="main.js"></script>
 
 

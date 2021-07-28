@@ -4,28 +4,36 @@ const fs = require("fs");
 const path = require("path");
 const express = require("express");
 const app = express();
-    const port = 3000;
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+const port = 3000;
 
 
 
 app.use(express.static(__dirname + '/public'));
 
-/*const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World');
+io.on('connection', (socket) => {
+    
+socket.on("update",(arg1,arg2)=>{
+    console.log("here2");
+    console.log(arg1);
+    console.log(arg2);
+    io.emit("updategrid",arg1,arg2);
+
+})
+
+    console.log('a user connected');
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});*/
-
-app.get("/word",function(req,res){
-    res.json({something:"more something"});
+app.get("/word", function (req, res) {
+    res.json({ something: "more something" });
 });
 
-app.listen(port);
 
+
+server.listen(port);
 
 
 
