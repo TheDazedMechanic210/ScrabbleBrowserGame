@@ -5,20 +5,16 @@
 </head>
 
 <body style="background-color:palegoldenrod;" >
-    <script src="socket.io.js"></script>
-<script>
-  var socket = io();
-  socket.on("updategrid",(id,letter)=>{
-    document.getElementById(id).value = letter;
-
-  });
-</script>  
+    <script src="socket.io.js"> </script>
+<script src ="clientIo.js"> </script>  
 <div class="game-container">
 
 <div id="game" >
   
 </div>
-<button id="something" onclick="updateGrid()">Press me</button>
+<button id="RoomCreate" onclick="createRoom()">Create Room</button>
+<input id= "roomCode" type = "text">
+     <button id="RoomJoin" onclick="joinRoom()">Join Room</button>
 </div>
 </body>
  

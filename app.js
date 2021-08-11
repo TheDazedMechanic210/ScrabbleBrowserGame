@@ -22,6 +22,18 @@ socket.on("update",(arg1,arg2)=>{
     console.log(arg2);
     io.emit("updategrid",arg1,arg2);
 
+socket.on("createRoom", () => {
+    console.log("here");
+    var roomid = generateRoomId();
+    socket.join(roomid);
+    io.emit("generateGrid");
+})
+
+socket.on("joinRoom",function(roomid){
+    socket.join(roomid);
+    io.emit("generateGrid");
+})
+
 })
 
     console.log('a user connected');
@@ -46,5 +58,12 @@ function checkFile(file, word) {
     else return "no word found";
 }
 
-
+function generateRoomId(){
+    var uniqid = "";
+  for(var i=0;i<6;i++){
+        var randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        uniqid+=randLetter;
+  }
+  return uniqid;
+}
 

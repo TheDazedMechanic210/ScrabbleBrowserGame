@@ -1,12 +1,12 @@
 
 const grid_size = 10;
 GenerateGrid();
-console.log("Testing testing not even more not showing up");
 
 function updateGrid(id) {
   const letter = document.getElementById(id).value;
   socket.emit("update",id,letter);
 }
+
 
 
 
