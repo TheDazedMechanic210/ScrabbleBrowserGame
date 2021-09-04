@@ -39,6 +39,9 @@ function GenerateGrid() {
           this.maxLength = 1;
         }
       };
+      input.oninput = function (){
+        this.value = this.value.toLowerCase();
+      }
       input.onkeydown = async function () {
         var key = event.keyCode;
         if (key == '13' && myTurn) {

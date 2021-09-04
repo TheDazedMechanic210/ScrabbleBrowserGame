@@ -10,7 +10,7 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 let port = process.env.PORT;
 if (port == null || port == "") {
-  port = 8000;
+  port = 3000;
 }
 
 
