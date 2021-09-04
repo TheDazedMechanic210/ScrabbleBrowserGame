@@ -8,8 +8,10 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
-//const port = 3000;
-
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 8000;
+}
 
 
 app.use(express.static(__dirname + '/public'));
@@ -89,7 +91,7 @@ app.get("/word/:word", function (req, res) {
 
 
 
-server.listen();
+server.listen(port);
 
 
 function checkFile(file, word) {
