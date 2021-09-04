@@ -2,13 +2,6 @@
 const grid_size = 10;
 GenerateGrid();
 
-function updateGrid(id) {
-  const letter = document.getElementById(id).value;
-  socket.emit("update",id,letter);
-}
-
-
-
 
 function GenerateGrid() {
 
@@ -34,19 +27,26 @@ function GenerateGrid() {
         input.id = "0" + i + "0" + j;
 
       }
-      input.style.height = 50;
-      input.style.width = 50;
+
       input.maxLength = 1;
       input.style.fontSize = 40;
-      input.onclick = function () { this.focus() };
-      input.onkeydown = function () {
+      input.onclick = function () {
+        this.focus();
+        if (!myTurn) {
+          this.maxLength = 0;
+        }
+        else {
+          this.maxLength = 1;
+        }
+      };
+      input.onkeydown = async function () {
         var key = event.keyCode;
-        if (key == '13') {
+        if (key == '13' && myTurn) {
 
           this.blur();
           if (this && this.value) {
-           // checkRow(this.id);
-           updateGrid(this.id);
+            const newS = await checkInput(this.id);
+            updateGrid(this.id, newS, usedWords);
           }
 
         }
@@ -59,17 +59,18 @@ function GenerateGrid() {
 
 
 
-function checkInput() {
+async function checkInput(id) {
 
-  /*var rowwise= checkRow();
-   var columnwise=checkColumn();
-   score=Math.max(rowwise,columnwise);*/
+  var rowwise = await checkRow(id);
+  var columnwise = await checkColumn(id);
+  var newscore = rowwise + columnwise;
+  return newscore;
 
 }
 
-function checkRow(id) {
+async function checkRow(id) {
   let words = [];
-
+  var rowScore = 0;
   var index = id[2] + id[3];
   index = parseInt(index);
 
@@ -103,15 +104,83 @@ function checkRow(id) {
         const letter = document.getElementById(idToGet).value;
         word += letter;
       }
-      words.push(word);
+      if (!words.includes(word) && (!usedWords.includes(word))) {
+        words.push(word);
+        usedWords.push(word);
+      }
     }
 
-    console.log(words);
+
 
   }
+  for (const word of words) {
+    const newScore = await checkWord(word);
+    if (rowScore < newScore) {
+      rowScore = newScore;
+    }
+  }
+
+  return rowScore;
 }
 
-function checkColumn() {
+async function checkColumn(id) {
+  let words = [];
+  var colScore = 0;
+  var index = id[0] + id[1];
+  index = parseInt(index);
+  let positions = [];
+  for (var i = 0; i < index + 1; i++) {
+    positions.push(i + 1);
+  }
+
+  for (var j = 0; j < positions.length; j++) 
+  {
+
+    var pos = positions[j];
+    const startPos = index - (pos - 1);
+
+    for (var a = index; a < grid_size; a++) 
+    {
+      var word = "";
+
+      for (var k = startPos; k < a + 1; k++) 
+      {
+
+        var colId = id[2] + id[3];
+        var iter = "";
+
+        if (k < 10) {
+          iter = "0" + k;
+        }
+
+        else {
+          iter = k;
+        }
+
+        var idToGet = iter + colId;
+        console.log(idToGet);
+        const letter = document.getElementById(idToGet).value;
+        word += letter;
+      }
+
+      if (!words.includes(word) && (!usedWords.includes(word))) {
+        words.push(word);
+        usedWords.push(word);
+      }
+    }
+
+  }
+
+  for (const word of words)
+  {
+    const newScore = await checkWord(word);
+    if (colScore < newScore) {
+      colScore = newScore;
+    }
+  }
+
+  return colScore;
+
 
 }
 
@@ -133,16 +202,16 @@ async function makeRequest(route, body, meta) {
 
   if (body) requestObject.body = JSON.stringify(body);
 
-  let res = await fetch("/" + route, requestObject);
+  let res = await fetch(route, requestObject);
   let jsonData = await res.json();
-
   return jsonData;
 }
 
 
-function checkWord() {
+async function checkWord(word) {
 
-  makeRequest("word").then(console.log);
+  let nscore = await makeRequest("word/" + word).then((value) => { return value.score; });
+  return nscore;
 
 }
 
