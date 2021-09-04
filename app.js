@@ -72,6 +72,7 @@ socket.on("turn",(val)=>{
     console.log('a user connected');
 });
 
+server.listen();
 
 app.get("/word/:word", function (req, res) {
     const word =  req.params.word;
@@ -88,8 +89,7 @@ app.get("/word/:word", function (req, res) {
 
 
 
-//server.listen(port);
-
+server.listen();
 
 
 function checkFile(file, word) {
