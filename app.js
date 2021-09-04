@@ -74,7 +74,6 @@ socket.on("turn",(val)=>{
     console.log('a user connected');
 });
 
-server.listen();
 
 app.get("/word/:word", function (req, res) {
     const word =  req.params.word;
