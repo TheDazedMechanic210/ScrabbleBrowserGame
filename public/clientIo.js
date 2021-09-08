@@ -27,6 +27,7 @@ socket.on("generateGrid",function(roomid,username){
   console.log("here1");
   document.getElementById("game-container").style.display = "flex";
   document.getElementById("userDetail").style.display = "none";
+  document.getElementById("header").display="none";
   document.getElementById("logo").innerHTML += roomid;
 
 });
