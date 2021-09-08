@@ -5,38 +5,50 @@
           href="main_style.css">
 </head>
 
-<body style="background-color:palegoldenrod;">
+<body>
     <script src="socket.io.js"> </script>
     <script src="clientIo.js"> </script>
-    <div id="roomId"></div>
 
     <div id="game-container">
         <div id="log">
-           <div id="logS"></div>
-           <div id="turn"></div>
-           <div id="score"></div>
+            <div id="logo">Scrabble | </div>
+            <div id="player1">
+                <div id="name1"></div>
+                <div id="score1"></div>
+            </div>
+            <div id="player2">
+                <div id="name2"></div>
+                <div id="score2"></div>
+            </div>
         </div>
+
         <div id="game">
 
         </div>
+        <div id="turn"></div>
 
     </div>
-
+    <div id="header">
+        Scrabble <br>
+    </div>
+    
     <div id=userDetail>
-        ENTER YOUR USERNAME<br>
-        <input id="username"
-               type="text"
-               maxlength="8">
-        <div>
-            <button id="roomCreate"
-                    onclick="createRoom()">Create Room</button>
-            <input id="roomCode"
-                   type="text"
-                   maxlength="6">
-            <button id="roomJoin"
-                    onclick="joinRoom()">Join Room</button>
+            
+            <div>
+                <input id="username"
+                       type="text"
+                       maxlength="8"
+                       placeholder="Enter Username">
+                <button id="roomCreate"
+                        onclick="createRoom()">Create Room</button>
+                <input id="roomCode"
+                       type="text"
+                       placeholder="Enter roomcode"
+                       maxlength="6">
+                <button id="roomJoin"
+                        onclick="joinRoom()">Join Room</button>
+            </div>
         </div>
-    </div>
 </body>
 
 <script src="main.js"></script>

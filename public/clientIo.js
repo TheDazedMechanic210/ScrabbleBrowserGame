@@ -27,22 +27,41 @@ socket.on("generateGrid",function(roomid,username){
   console.log("here1");
   document.getElementById("game-container").style.display = "flex";
   document.getElementById("userDetail").style.display = "none";
-  document.getElementById("logS").innerHTML = "ROOM ID: "+roomid;
+  document.getElementById("logo").innerHTML += roomid;
 
 });
 
 
 
 socket.on("updateLog",(username)=>{
-  document.getElementById("logS").innerHTML += "<br>";
-  document.getElementById("logS").innerHTML += " "+ username+" joined the game" ;
+  if(document.getElementById("name1").innerHTML==""){
+    document.getElementById("name1").innerHTML = username;
+    document.getElementById("score1").innerHTML = "0";
+    document.getElementById("player1").value = username;
+  }
+  else
+  {
+    document.getElementById("name2").innerHTML = username;
+    document.getElementById("score2").innerHTML = "0";
+    document.getElementById("player2").value = username;
+  }
 })
 
 socket.on("changeScore",(scoreMat)=>{
-    document.getElementById("score").innerHTML = "";
-    for (key in scoreMat){
-       document.getElementById("score").innerHTML += key + "'s score: " + scoreMat[key]+ "<br>";
-    }
+   
+for ( key in scoreMat){
+  if(document.getElementById("player1").value==key)
+  {
+    document.getElementById("name1").innerHTML = key;
+    document.getElementById("score1").innerHTML = scoreMat[key];
+  }
+  else
+  {
+    document.getElementById("name2").innerHTML = key;
+    document.getElementById("score2").innerHTML = scoreMat[key];
+  }
+
+}
 })
 
 function createRoom(){
@@ -53,6 +72,7 @@ function createRoom(){
 
 
 socket.on("changeturn",(turn)=>{
+    document.getElementById("turn").style.display = "flex"
     if(turn){
       document.getElementById("turn").innerHTML = "Your turn";
       socket.emit("turn",turn);

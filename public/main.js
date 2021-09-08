@@ -12,6 +12,7 @@ function GenerateGrid() {
 
       var cell = mainGameContainer.appendChild(document.createElement('div'));
       cell.id = 'square' + (i + 1) + (j + 1);
+      cell.style.borderRadius = 30;
       var input = cell.appendChild(document.createElement('input'));
 
       if (i > 10 && j > 10) {
@@ -29,7 +30,7 @@ function GenerateGrid() {
       }
 
       input.maxLength = 1;
-      input.style.fontSize = 40;
+      input.style.fontSize = 25;
       input.onclick = function () {
         this.focus();
         if (!myTurn) {
