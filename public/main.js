@@ -40,7 +40,7 @@ function GenerateGrid() {
           this.maxLength = 1;
         }
       };
-      input.oninput = function (){
+      input.oninput = function () {
         this.value = this.value.toLowerCase();
       }
       input.onkeydown = async function () {
@@ -110,19 +110,22 @@ async function checkRow(id) {
       }
       if (!words.includes(word) && (!usedWords.includes(word))) {
         words.push(word);
-        usedWords.push(word);
       }
     }
 
 
 
   }
+  let max = 0;
   for (const word of words) {
     const newScore = await checkWord(word);
     if (rowScore < newScore) {
       rowScore = newScore;
+      max = words.indexOf(word);
     }
   }
+
+  usedWords.push(words[max]);
 
   return rowScore;
 }
@@ -137,18 +140,15 @@ async function checkColumn(id) {
     positions.push(i + 1);
   }
 
-  for (var j = 0; j < positions.length; j++) 
-  {
+  for (var j = 0; j < positions.length; j++) {
 
     var pos = positions[j];
     const startPos = index - (pos - 1);
 
-    for (var a = index; a < grid_size; a++) 
-    {
+    for (var a = index; a < grid_size; a++) {
       var word = "";
 
-      for (var k = startPos; k < a + 1; k++) 
-      {
+      for (var k = startPos; k < a + 1; k++) {
 
         var colId = id[2] + id[3];
         var iter = "";
@@ -169,20 +169,20 @@ async function checkColumn(id) {
 
       if (!words.includes(word) && (!usedWords.includes(word))) {
         words.push(word);
-        usedWords.push(word);
+        
       }
     }
 
   }
-
-  for (const word of words)
-  {
+  let max =0;
+  for (const word of words) {
     const newScore = await checkWord(word);
     if (colScore < newScore) {
       colScore = newScore;
+      max = words.indexOf(word);
     }
   }
-
+  usedWords.push(words[max]);
   return colScore;
 
 
